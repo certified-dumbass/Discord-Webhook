@@ -16,6 +16,7 @@
 
             <form id="configForm">
 
+                <!-- Jellyfin URL -->
                 <div class="inputContainer">
 
                     <label class="inputLabel inputLabelUnfocused"
@@ -35,6 +36,7 @@
                 </div>
 
 
+                <!-- Jellyfin API Key -->
                 <div class="inputContainer">
 
                     <label class="inputLabel inputLabelUnfocused"
@@ -54,6 +56,7 @@
                 </div>
 
 
+                <!-- Discord Webhook -->
                 <div class="inputContainer">
 
                     <label class="inputLabel inputLabelUnfocused"
@@ -67,30 +70,70 @@
                            placeholder="https://discord.com/api/webhooks/..." />
 
                     <div class="fieldDescription">
-                        The Discord webhook used for weekly updates.
+                        The Discord webhook used for updates.
                     </div>
 
                 </div>
 
 
-                <div>
-    <button
-        is="emby-button"
-        type="submit"
-        class="raised button-submit block">
+                <!-- Scan interval -->
+                <div class="inputContainer">
 
-        <span>Save</span>
+                    <label class="inputLabel inputLabelUnfocused"
+                           for="scanInterval">
+                        Scan Interval
+                    </label>
 
-    </button>
-</div>
+                    <select id="scanInterval"
+                            is="emby-select">
 
-<div style="margin-top: 1em;">
-    <button
-        id="testDiscordButton"
-        is="emby-button"
-        type="button"
-        class="raised button-submit block">
+                        <option value="1">Every hour</option>
+                        <option value="6">Every 6 hours</option>
+                        <option value="12">Every 12 hours</option>
+                        <option value="24">Every 24 hours</option>
+                        <option value="48">Every 2 days</option>
+                        <option value="72">Every 3 days</option>
+                        <option value="168">Every 7 days</option>
 
+                    </select>
+
+                    <div class="fieldDescription">
+                        How often the Jellyfin server should be scanned
+                        for newly added movies and series.
+                    </div>
+
+                </div>
+
+
+                <!-- Save -->
+                <div style="margin-top: 1em;">
+
+                    <button
+                        is="emby-button"
+                        type="submit"
+                        class="raised button-submit block">
+
+                        <span>Save</span>
+
+                    </button>
+
+                </div>
+
+
+                <!-- Test Discord -->
+                <div style="margin-top: 1em;">
+
+                    <button
+                        id="testDiscordButton"
+                        is="emby-button"
+                        type="button"
+                        class="raised button-submit block">
+
+                        <span>Test Discord Webhook</span>
+
+                    </button>
+
+                </div>
 
             </form>
 
@@ -105,6 +148,10 @@
     const pluginId =
         '7B7E6E2A-5F2B-4A3D-9F64-9D0E3C6D8A21';
 
+
+    /*
+     * Load configuration
+     */
 
     document
         .querySelector('#configPage')
@@ -125,12 +172,19 @@
                     document.querySelector('#discordWebhook').value =
                         config.DiscordWebhook || '';
 
+                    document.querySelector('#scanInterval').value =
+                        config.ScanIntervalHours || 168;
+
                     Dashboard.hideLoadingMsg();
 
                 });
 
         });
 
+
+    /*
+     * Save configuration
+     */
 
     document
         .querySelector('#configForm')
@@ -139,7 +193,6 @@
             e.preventDefault();
 
             Dashboard.showLoadingMsg();
-
 
             ApiClient
                 .getPluginConfiguration(pluginId)
@@ -154,60 +207,70 @@
                     config.DiscordWebhook =
                         document.querySelector('#discordWebhook').value;
 
+                    config.ScanIntervalHours =
+                        parseInt(
+                            document.querySelector('#scanInterval').value,
+                            10
+                        );
 
-                    ApiClient
-                        .updatePluginConfiguration(
-                            pluginId,
-                            config
-                        )
-                        .then(function (result) {
 
-                            Dashboard.processPluginConfigurationUpdateResult(
-                                result
-                            );
+                    return ApiClient.updatePluginConfiguration(
+                        pluginId,
+                        config
+                    );
 
-                        });
+                })
+                .then(function (result) {
+
+                    Dashboard.processPluginConfigurationUpdateResult(
+                        result
+                    );
 
                 });
 
         });
 
-document
-    .querySelector('#testDiscordButton')
-    .addEventListener('click', function () {
 
-        Dashboard.showLoadingMsg();
+    /*
+     * Test Discord webhook
+     */
 
-        ApiClient
-            .ajax({
-                type: 'POST',
-                url: ApiClient.getUrl(
-                    'Dreamstreaming/DiscordBot/TestDiscord'
-                ),
-                dataType: 'json'
-            })
-            .then(function (result) {
+    document
+        .querySelector('#testDiscordButton')
+        .addEventListener('click', function () {
 
-                Dashboard.hideLoadingMsg();
+            Dashboard.showLoadingMsg();
 
-                Dashboard.alert(
-                    result.Message ||
-                    'Discord test succesvol verzonden.'
-                );
+            ApiClient
+                .ajax({
+                    type: 'POST',
+                    url: ApiClient.getUrl(
+                        'Dreamstreaming/DiscordBot/TestDiscord'
+                    ),
+                    dataType: 'json'
+                })
+                .then(function (result) {
 
-            })
-            .catch(function (error) {
+                    Dashboard.hideLoadingMsg();
 
-                Dashboard.hideLoadingMsg();
+                    Dashboard.alert(
+                        result.Message ||
+                        'Discord test successfully sent.'
+                    );
 
-                Dashboard.alert(
-                    'Discord test mislukt.'
-                );
+                })
+                .catch(function () {
 
-            });
+                    Dashboard.hideLoadingMsg();
 
-    });
-    
+                    Dashboard.alert(
+                        'Discord test failed.'
+                    );
+
+                });
+
+        });
+
 </script>
 
 </body>

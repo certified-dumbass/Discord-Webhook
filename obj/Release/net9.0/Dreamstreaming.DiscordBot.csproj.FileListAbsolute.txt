@@ -1,0 +1,11 @@
+C:\Users\Emiel\Documents\Script\HTML+CSS\Eigen Jellyfin project\Webhook\bin\Release\net9.0\Dreamstreaming.DiscordBot.deps.json
+C:\Users\Emiel\Documents\Script\HTML+CSS\Eigen Jellyfin project\Webhook\bin\Release\net9.0\Dreamstreaming.DiscordBot.dll
+C:\Users\Emiel\Documents\Script\HTML+CSS\Eigen Jellyfin project\Webhook\bin\Release\net9.0\Dreamstreaming.DiscordBot.pdb
+C:\Users\Emiel\Documents\Script\HTML+CSS\Eigen Jellyfin project\Webhook\obj\Release\net9.0\Dreamstreaming.DiscordBot.csproj.AssemblyReference.cache
+C:\Users\Emiel\Documents\Script\HTML+CSS\Eigen Jellyfin project\Webhook\obj\Release\net9.0\Dreamstreaming.DiscordBot.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Emiel\Documents\Script\HTML+CSS\Eigen Jellyfin project\Webhook\obj\Release\net9.0\Dreamstreaming.DiscordBot.csproj.CoreCompileInputs.cache
+C:\Users\Emiel\Documents\Script\HTML+CSS\Eigen Jellyfin project\Webhook\obj\Release\net9.0\Dreamstreaming.DiscordBot.sourcelink.json
+C:\Users\Emiel\Documents\Script\HTML+CSS\Eigen Jellyfin project\Webhook\obj\Release\net9.0\Dreamstreaming.DiscordBot.dll
+C:\Users\Emiel\Documents\Script\HTML+CSS\Eigen Jellyfin project\Webhook\obj\Release\net9.0\refint\Dreamstreaming.DiscordBot.dll
+C:\Users\Emiel\Documents\Script\HTML+CSS\Eigen Jellyfin project\Webhook\obj\Release\net9.0\Dreamstreaming.DiscordBot.pdb
+C:\Users\Emiel\Documents\Script\HTML+CSS\Eigen Jellyfin project\Webhook\obj\Release\net9.0\ref\Dreamstreaming.DiscordBot.dll

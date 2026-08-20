@@ -1,4 +1,3 @@
-using System.Net.Http.Headers;
 using System.Text.Json;
 using Dreamstreaming.DiscordBot.Configuration;
 using Dreamstreaming.DiscordBot.Models;
@@ -9,23 +8,28 @@ public class JellyfinService
 {
     private readonly string _jellyfinUrl;
     private readonly string _apiKey;
-
     private readonly HttpClient _client;
 
-
     public JellyfinService(PluginConfiguration configuration)
+        : this(
+            configuration.JellyfinUrl,
+            configuration.JellyfinApiKey)
     {
-        _jellyfinUrl = configuration.JellyfinUrl.TrimEnd('/');
-        _apiKey = configuration.JellyfinApiKey;
+    }
+
+    public JellyfinService(
+        string jellyfinUrl,
+        string apiKey)
+    {
+        _jellyfinUrl = jellyfinUrl.TrimEnd('/');
+        _apiKey = apiKey;
 
         _client = new HttpClient();
 
         _client.DefaultRequestHeaders.Add(
             "X-Emby-Token",
-            _apiKey
-        );
+            _apiKey);
     }
-
 
     public async Task<List<Movie>> GetMovies()
     {
@@ -51,30 +55,19 @@ public class JellyfinService
         {
             movies.Add(new Movie
             {
-                Id =
-                    item.GetProperty("Id")
-                    .GetString(),
-
-                Name =
-                    item.GetProperty("Name")
-                    .GetString(),
-
-                DateAdded =
-                    item.GetProperty("DateCreated")
-                    .GetDateTime(),
-
-                Year =
-                    item.TryGetProperty(
-                        "ProductionYear",
-                        out var year)
-                        ? year.GetInt32()
-                        : null
+                Id = item.GetProperty("Id").GetString(),
+                Name = item.GetProperty("Name").GetString(),
+                DateAdded = item.GetProperty("DateCreated").GetDateTime(),
+                Year = item.TryGetProperty(
+                    "ProductionYear",
+                    out var year)
+                    ? year.GetInt32()
+                    : null
             });
         }
 
         return movies;
     }
-
 
     public async Task<List<Series>> GetSeries()
     {
@@ -100,24 +93,14 @@ public class JellyfinService
         {
             series.Add(new Series
             {
-                Id =
-                    item.GetProperty("Id")
-                    .GetString(),
-
-                Name =
-                    item.GetProperty("Name")
-                    .GetString(),
-
-                DateAdded =
-                    item.GetProperty("DateCreated")
-                    .GetDateTime(),
-
-                Year =
-                    item.TryGetProperty(
-                        "ProductionYear",
-                        out var year)
-                        ? year.GetInt32()
-                        : null
+                Id = item.GetProperty("Id").GetString(),
+                Name = item.GetProperty("Name").GetString(),
+                DateAdded = item.GetProperty("DateCreated").GetDateTime(),
+                Year = item.TryGetProperty(
+                    "ProductionYear",
+                    out var year)
+                    ? year.GetInt32()
+                    : null
             });
         }
 

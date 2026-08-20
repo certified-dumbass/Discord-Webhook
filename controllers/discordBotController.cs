@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Dreamstreaming.DiscordBot.Configuration;
@@ -24,15 +26,18 @@ public class DiscordBotController : ControllerBase
 
         if (string.IsNullOrWhiteSpace(configuration.DiscordWebhook))
         {
-            return BadRequest("Discord webhook is not configured.");
+            return BadRequest(new
+            {
+                Success = false,
+                Message = "Discord webhook is not configured."
+            });
         }
 
         try
         {
             var discordService =
                 new DiscordWebhookService(
-                    configuration.DiscordWebhook
-                );
+                    configuration.DiscordWebhook);
 
             await discordService.SendTestMessage();
 
@@ -47,7 +52,7 @@ public class DiscordBotController : ControllerBase
             return BadRequest(new
             {
                 Success = false,
-                Message = ex.Message
+                Message = $"Discord webhook test mislukt: {ex.Message}"
             });
         }
     }

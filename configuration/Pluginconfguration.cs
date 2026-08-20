@@ -9,4 +9,6 @@ public class PluginConfiguration : BasePluginConfiguration
     public string JellyfinApiKey { get; set; } = string.Empty;
 
     public string DiscordWebhook { get; set; } = string.Empty;
+
+    public int ScanIntervalHours { get; set; } = 168;
 }

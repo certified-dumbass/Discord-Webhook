@@ -12,3 +12,9 @@ i plan on adding:
 
 if you have any feedback regarding how it works please let me know, i will be making it work on more versins than the one i'm currently running (10.11.8)
 anyways, happy days!
+
+
+to add the Plugin to your server add this link:
+"https://raw.githubusercontent.com/certified-dumbass/Discord-Webhook/refs/heads/main/manifest.json"
+
+install and enjoy!

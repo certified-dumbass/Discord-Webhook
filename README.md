@@ -20,9 +20,80 @@ Built for **Jellyfin** and designed to make your media server feel a little more
 
 ---
 
-## 📸 Example
+## 📦 Add this to your Jellyfin Plugin Repository
 
-When new content is detected, the plugin can send a Discord message containing the newly added movies and series.
+Add the following **raw manifest URL** to your Jellyfin plugin repositories:
+
+**Repository URL:**
+
+https://raw.githubusercontent.com/certified-dumbass/Discord-Webhook/refs/heads/main/manifest.json
+
+### How to add the repository
+
+1. Open your **Jellyfin Dashboard**.
+
+2. Go to **Plugins**.
+
+3. Open **Repositories**.
+
+4. Click **+** to add a new repository.
+
+5. Enter the URL above.
+
+6. Give the repository a name, for example:
+
+   `Dreamstreaming Discord Bot`
+
+7. Click **Save**.
+
+8. Open the **Catalog**.
+
+9. Find **Dreamstreaming Discord Bot**.
+
+10. Install the plugin.
+
+11. **Restart Jellyfin** after installation.
+
+---
+
+## ⚙️ Configuration
+
+After installing the plugin, open the plugin configuration from the Jellyfin Dashboard.
+
+The plugin provides settings for:
+
+| Setting             | Description                                |
+| ------------------- | ------------------------------------------ |
+| 🔑 Jellyfin API Key | API key used to access the Jellyfin server |
+| 🌐 Jellyfin URL     | URL of the Jellyfin server                 |
+| 💬 Discord Webhook  | Discord webhook used to send notifications |
+| 🕐 Scan Schedule    | Determines when the server is scanned      |
+
+Save your configuration after making changes.
+
+---
+
+## 🔍 How It Works
+
+The plugin periodically scans your Jellyfin server and checks for newly added content.
+
+The detected content is separated into:
+
+### 🎬 Movies
+
+Newly added movies are collected and included in the Discord notification.
+
+### 📺 Series
+
+Newly added series are collected and included in the Discord notification.
+
+The plugin keeps track of previously scanned content to prevent the same items from being announced repeatedly.
+
+---
+
+## 💬 Discord Notifications
+
+When new content is detected, the plugin sends a notification to your configured Discord webhook.
 
 Example:
 
@@ -39,47 +110,28 @@ Example:
 • Fallout
 ```
 
----
-
-## 🔧 Configuration
-
-The plugin can be configured from the Jellyfin administration dashboard.
-
-The configuration includes:
-
-| Setting             | Description                                  |
-| ------------------- | -------------------------------------------- |
-| 🔑 Jellyfin API Key | API key used to access the Jellyfin server   |
-| 🌐 Jellyfin URL     | URL of the Jellyfin server                   |
-| 💬 Discord Webhook  | Discord webhook used to post notifications   |
-| 🕐 Scan Schedule    | Determines when the server should be scanned |
-
-After configuring the plugin, save the settings and allow the scheduled scan to run.
+This allows your Discord community to automatically see when something new has been added to Jellyfin.
 
 ---
 
-## 🚀 Installation
+## 🔐 Discord Webhook
 
-### Method 1 — Jellyfin Plugin Repository
+The plugin uses a Discord webhook to send messages to your Discord server.
 
-1. Open the **Jellyfin Dashboard**.
-2. Go to **Plugins**.
-3. Open **Repositories**.
-4. Add the Dreamstreaming plugin repository.
-5. Save the repository.
-6. Open the **Catalog**.
-7. Find **Dreamstreaming Discord Bot**.
-8. Install the plugin.
-9. Restart Jellyfin.
+To create a webhook:
 
-### Method 2 — Manual Installation
+1. Open your Discord server.
+2. Go to **Server Settings**.
+3. Open **Integrations**.
+4. Select **Webhooks**.
+5. Create a new webhook.
+6. Select the channel where you want the notifications.
+7. Copy the webhook URL.
+8. Paste the URL into the plugin configuration.
 
-1. Download the latest release from the project's GitHub repository.
-2. Extract the plugin files.
-3. Copy the plugin into the Jellyfin plugins directory.
-4. Restart Jellyfin.
-5. Open the Jellyfin Dashboard.
-6. Configure the plugin.
+> ⚠️ **Never publish your Discord webhook URL publicly.**
+
+If your webhook URL is accidentally exposed, delete the webhook and create a new one.
 
 ---
 
@@ -87,100 +139,82 @@ After configuring the plugin, save the settings and allow the scheduled scan to 
 
 When a new version is released:
 
-1. Install the latest version through the Jellyfin Plugin Catalog.
-2. Restart Jellyfin.
-3. Verify that the new version is shown under **Plugins → Installed**.
+1. Publish the new release.
+2. Update the plugin manifest.
+3. Open Jellyfin.
+4. Go to **Dashboard → Plugins**.
+5. Check for available updates.
+6. Install the new version.
+7. Restart Jellyfin.
 
-The plugin will then use the updated version.
-
----
-
-## 🔐 Discord Webhook
-
-The plugin uses a Discord webhook to send notifications.
-
-Create a webhook in your Discord server:
-
-**Discord Server → Server Settings → Integrations → Webhooks**
-
-Copy the webhook URL and enter it in the plugin configuration.
-
-> ⚠️ **Never publish your Discord webhook URL publicly.**
-
-If a webhook URL is accidentally exposed, delete the webhook and create a new one.
-
----
-
-## 🧠 How It Works
-
-The plugin periodically scans the Jellyfin server and compares the current library contents with the previous scan.
-
-When new content is detected, the plugin separates it into:
-
-* 🎬 Movies
-* 📺 Series
-
-The results are then sent to the configured Discord webhook.
-
-Previously detected content is stored so that the same movie or series isn't repeatedly announced.
+> 💡 If Jellyfin does not immediately show the new version, restarting Jellyfin can force the plugin system to reload the repository information.
 
 ---
 
 ## 🛠️ Requirements
 
-* Jellyfin **10.11.x or newer**
+* **Jellyfin 10.11.x or newer**
 * A Discord server
 * A Discord webhook
 * Jellyfin API access
-* .NET runtime supported by the plugin
+* A compatible .NET runtime
 
 ---
 
 ## 🐛 Troubleshooting
 
-### The plugin isn't appearing in Jellyfin
+### The plugin does not appear
 
-Try restarting Jellyfin after installing the plugin.
-
-Then check:
+Try restarting Jellyfin and check:
 
 **Dashboard → Plugins → Installed**
 
+If the plugin still does not appear, verify that the repository URL is correct.
+
 ---
 
-### Discord isn't receiving messages
+### Discord does not receive notifications
 
 Check that:
 
-* The Discord webhook is correct.
+* The Discord webhook URL is correct.
 * The webhook still exists.
-* The Discord channel is accessible.
-* The plugin has been configured correctly.
+* The selected Discord channel is accessible.
+* The plugin configuration has been saved.
 * The scheduled scan has run.
+* Jellyfin has been restarted after installation.
 
 ---
 
-### Movies or series are duplicated
+### Content is not detected
 
-Make sure the plugin's scan data has not been deleted or reset.
+Make sure the content has actually been added to your Jellyfin library.
 
-The plugin uses previous scan information to determine which items are new.
+The plugin compares the current library state with previous scan data to determine what is new.
+
+---
+
+### Duplicate notifications appear
+
+The plugin uses stored scan information to keep track of previously detected content.
+
+Do not delete or reset the plugin's stored scan data unless you intentionally want the plugin to perform a fresh comparison.
 
 ---
 
 ## 📋 Version
 
-Current version: **1.0.0**
+**Current version:** `1.0.0`
 
-See the GitHub releases page for the latest version and changelog.
+For the latest version and changes, check the project's GitHub releases.
 
 ---
 
 ## ❤️ Credits
 
-Created by **Certified-dumbass** for the Dreamstreaming Jellyfin ecosystem.
+Created by **Certified-dumbass** for the **Dreamstreaming** Jellyfin ecosystem.
 
-Part of the **Dreamstreaming** project.
+The goal of this project is to make Jellyfin communities more interactive by automatically sharing new media additions with Discord.
 
 ---
 
@@ -188,18 +222,20 @@ Part of the **Dreamstreaming** project.
 
 This project is open source.
 
-See the repository license for details.
+See the repository license for more information.
 
 ---
 
-### ⭐ Support the Project
+## ⭐ Support the Project
 
-If you find the plugin useful:
+If you enjoy the plugin, consider:
 
-* ⭐ Star the repository
-* 🐛 Report bugs
-* 💡 Suggest features
-* 🔧 Contribute improvements
+* ⭐ Starring the repository
+* 🐛 Reporting bugs
+* 💡 Suggesting features
+* 🔧 Contributing improvements
 
 Enjoy your Jellyfin server! 🍿🎬
+
+**Dreamstreaming — Your media, your community.**
 

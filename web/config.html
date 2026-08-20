@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Dreamstreaming Discord Bot</title>
+</head>
+
+<body>
+
+<div id="configPage"
+     data-role="page"
+     class="page type-interior pluginConfigurationPage">
+
+    <div data-role="content">
+        <div class="content-primary">
+
+            <form id="configForm">
+
+                <div class="inputContainer">
+
+                    <label class="inputLabel inputLabelUnfocused"
+                           for="jellyfinUrl">
+                        Jellyfin Server URL
+                    </label>
+
+                    <input id="jellyfinUrl"
+                           type="text"
+                           is="emby-input"
+                           placeholder="http://localhost:8096" />
+
+                    <div class="fieldDescription">
+                        The URL of your Jellyfin server.
+                    </div>
+
+                </div>
+
+
+                <div class="inputContainer">
+
+                    <label class="inputLabel inputLabelUnfocused"
+                           for="jellyfinApiKey">
+                        Jellyfin API Key
+                    </label>
+
+                    <input id="jellyfinApiKey"
+                           type="password"
+                           is="emby-input"
+                           placeholder="Enter your Jellyfin API key" />
+
+                    <div class="fieldDescription">
+                        The API key used to access your Jellyfin server.
+                    </div>
+
+                </div>
+
+
+                <div class="inputContainer">
+
+                    <label class="inputLabel inputLabelUnfocused"
+                           for="discordWebhook">
+                        Discord Webhook
+                    </label>
+
+                    <input id="discordWebhook"
+                           type="password"
+                           is="emby-input"
+                           placeholder="https://discord.com/api/webhooks/..." />
+
+                    <div class="fieldDescription">
+                        The Discord webhook used for weekly updates.
+                    </div>
+
+                </div>
+
+
+                <div>
+    <button
+        is="emby-button"
+        type="submit"
+        class="raised button-submit block">
+
+        <span>Save</span>
+
+    </button>
+</div>
+
+<div style="margin-top: 1em;">
+    <button
+        id="testDiscordButton"
+        is="emby-button"
+        type="button"
+        class="raised button-submit block">
+
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+
+    const pluginId =
+        '7B7E6E2A-5F2B-4A3D-9F64-9D0E3C6D8A21';
+
+
+    document
+        .querySelector('#configPage')
+        .addEventListener('pageshow', function () {
+
+            Dashboard.showLoadingMsg();
+
+            ApiClient
+                .getPluginConfiguration(pluginId)
+                .then(function (config) {
+
+                    document.querySelector('#jellyfinUrl').value =
+                        config.JellyfinUrl || '';
+
+                    document.querySelector('#jellyfinApiKey').value =
+                        config.JellyfinApiKey || '';
+
+                    document.querySelector('#discordWebhook').value =
+                        config.DiscordWebhook || '';
+
+                    Dashboard.hideLoadingMsg();
+
+                });
+
+        });
+
+
+    document
+        .querySelector('#configForm')
+        .addEventListener('submit', function (e) {
+
+            e.preventDefault();
+
+            Dashboard.showLoadingMsg();
+
+
+            ApiClient
+                .getPluginConfiguration(pluginId)
+                .then(function (config) {
+
+                    config.JellyfinUrl =
+                        document.querySelector('#jellyfinUrl').value;
+
+                    config.JellyfinApiKey =
+                        document.querySelector('#jellyfinApiKey').value;
+
+                    config.DiscordWebhook =
+                        document.querySelector('#discordWebhook').value;
+
+
+                    ApiClient
+                        .updatePluginConfiguration(
+                            pluginId,
+                            config
+                        )
+                        .then(function (result) {
+
+                            Dashboard.processPluginConfigurationUpdateResult(
+                                result
+                            );
+
+                        });
+
+                });
+
+        });
+
+document
+    .querySelector('#testDiscordButton')
+    .addEventListener('click', function () {
+
+        Dashboard.showLoadingMsg();
+
+        ApiClient
+            .ajax({
+                type: 'POST',
+                url: ApiClient.getUrl(
+                    'Dreamstreaming/DiscordBot/TestDiscord'
+                ),
+                dataType: 'json'
+            })
+            .then(function (result) {
+
+                Dashboard.hideLoadingMsg();
+
+                Dashboard.alert(
+                    result.Message ||
+                    'Discord test succesvol verzonden.'
+                );
+
+            })
+            .catch(function (error) {
+
+                Dashboard.hideLoadingMsg();
+
+                Dashboard.alert(
+                    'Discord test mislukt.'
+                );
+
+            });
+
+    });
+    
+</script>
+
+</body>
+</html>

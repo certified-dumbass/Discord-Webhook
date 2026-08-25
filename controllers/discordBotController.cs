@@ -1,4 +1,5 @@
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,24 +12,28 @@ namespace Dreamstreaming.DiscordBot.Controllers;
 [Authorize(Policy = "RequiresElevation")]
 public class DiscordBotController : ControllerBase
 {
-    private readonly Plugin _plugin;
-
-    public DiscordBotController(Plugin plugin)
-    {
-        _plugin = plugin;
-    }
-
     [HttpPost("TestDiscord")]
     public async Task<ActionResult> TestDiscord()
     {
-        var configuration = _plugin.Configuration;
+        var plugin = Plugin.Instance;
+
+        if (plugin is null)
+        {
+            return StatusCode(500, new
+            {
+                Success = false,
+                Message = "Dreamstreaming Discord Bot plugin instance is not available."
+            });
+        }
+
+        var configuration = plugin.Configuration;
 
         if (string.IsNullOrWhiteSpace(configuration.DiscordWebhook))
         {
             return BadRequest(new
             {
                 Success = false,
-                Message = "Discord webhook is niet ingesteld."
+                Message = "Discord webhook is not configured."
             });
         }
 
@@ -43,8 +48,7 @@ public class DiscordBotController : ControllerBase
             return Ok(new
             {
                 Success = true,
-                Message =
-                    "Discord webhook test succesvol verzonden."
+                Message = "Discord webhook test succesvol verzonden."
             });
         }
         catch (HttpRequestException ex)

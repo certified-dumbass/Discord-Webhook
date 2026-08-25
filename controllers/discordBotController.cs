@@ -2,7 +2,6 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Dreamstreaming.DiscordBot.Configuration;
 using Dreamstreaming.DiscordBot.Services;
 
 namespace Dreamstreaming.DiscordBot.Controllers;
@@ -29,13 +28,13 @@ public class DiscordBotController : ControllerBase
             return BadRequest(new
             {
                 Success = false,
-                Message = "Discord webhook is not configured."
+                Message = "Discord webhook is niet ingesteld."
             });
         }
 
         try
         {
-            var discordService =
+            using var discordService =
                 new DiscordWebhookService(
                     configuration.DiscordWebhook);
 
@@ -44,15 +43,35 @@ public class DiscordBotController : ControllerBase
             return Ok(new
             {
                 Success = true,
-                Message = "Discord webhook test succesvol verzonden."
+                Message =
+                    "Discord webhook test succesvol verzonden."
             });
         }
-        catch (Exception ex)
+        catch (HttpRequestException ex)
         {
             return BadRequest(new
             {
                 Success = false,
-                Message = $"Discord webhook test mislukt: {ex.Message}"
+                Message =
+                    $"Discord weigerde de webhook request: {ex.Message}"
+            });
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new
+            {
+                Success = false,
+                Message =
+                    $"Ongeldige Discord webhook: {ex.Message}"
+            });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new
+            {
+                Success = false,
+                Message =
+                    $"Onverwachte fout tijdens Discord test: {ex.Message}"
             });
         }
     }

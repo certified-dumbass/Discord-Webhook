@@ -1,16 +1,40 @@
+using System;
+using System.Net.Http;
 using System.Net.Http.Json;
+using System.Threading.Tasks;
 using Dreamstreaming.DiscordBot.Models;
 
 namespace Dreamstreaming.DiscordBot.Services;
 
-public class DiscordWebhookService
+public class DiscordWebhookService : IDisposable
 {
     private readonly string _webhookUrl;
     private readonly HttpClient _client;
 
     public DiscordWebhookService(string webhookUrl)
     {
-        _webhookUrl = webhookUrl;
+        if (string.IsNullOrWhiteSpace(webhookUrl))
+        {
+            throw new ArgumentException(
+                "Discord webhook URL cannot be empty.",
+                nameof(webhookUrl));
+        }
+
+        if (!Uri.TryCreate(webhookUrl, UriKind.Absolute, out var uri))
+        {
+            throw new ArgumentException(
+                "Discord webhook URL is invalid.",
+                nameof(webhookUrl));
+        }
+
+        if (uri.Scheme != Uri.UriSchemeHttps)
+        {
+            throw new ArgumentException(
+                "Discord webhook URL must use HTTPS.",
+                nameof(webhookUrl));
+        }
+
+        _webhookUrl = webhookUrl.Trim();
         _client = new HttpClient();
     }
 
@@ -18,22 +42,28 @@ public class DiscordWebhookService
     {
         string message = CreateMessage(result);
 
-        await _client.PostAsJsonAsync(
+        using var response = await _client.PostAsJsonAsync(
             _webhookUrl,
             new
             {
                 content = message
             });
+
+        response.EnsureSuccessStatusCode();
     }
 
     public async Task SendTestMessage()
     {
-        await _client.PostAsJsonAsync(
+        using var response = await _client.PostAsJsonAsync(
             _webhookUrl,
             new
             {
-                content = "💜 **Dreamstreaming Discord Bot**\n\n✅ Testbericht succesvol verzonden!"
+                content =
+                    "💜 **Dreamstreaming Discord Bot**\n\n" +
+                    "✅ Testbericht succesvol verzonden!"
             });
+
+        response.EnsureSuccessStatusCode();
     }
 
     private string CreateMessage(ScanResult result)
@@ -75,5 +105,10 @@ public class DiscordWebhookService
             "\n🌙 Veel kijkplezier op Dreamstreaming!";
 
         return message;
+    }
+
+    public void Dispose()
+    {
+        _client.Dispose();
     }
 }

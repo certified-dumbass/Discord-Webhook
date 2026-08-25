@@ -8,11 +8,11 @@
     "category": "General",
     "versions": [
       {
-        "version": "1.0.0",
+        "version": "1.1.0",
         "changelog": "Initial release.",
         "targetAbi": "10.11.0.0",
-        "sourceUrl": "https://raw.githubusercontent.com/certified-dumbass/Discord-Webhook/main/Dreamstreaming.DiscordBot_1.0.0.zip",
-        "checksum": "714B02E5B12EA3E1ACDF891825F40180",
+        "sourceUrl": "https://raw.githubusercontent.com/certified-dumbass/Discord-Webhook/main/Dreamstreaming.DiscordBot_1.1.0.zip",
+        "checksum": "583456E0F1A19D8D1E0C17AC796E1D57",
         "timestamp": "2026-08-20T00:00:00Z"
       }
     ]

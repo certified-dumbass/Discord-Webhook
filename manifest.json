@@ -9,11 +9,11 @@
     "imageUrl": "https://raw.githubusercontent.com/certified-dumbass/Discord-Webhook/main/images/thumbnail.png",
     "versions": [
       {
-    "version": "1.1.8",
+    "version": "1.1.9",
 "changelog": "Improved Discord webhook testing and error handling.",
 "targetAbi": "10.11.0.0",
-"sourceUrl": "https://github.com/certified-dumbass/Discord-Webhook/releases/download/v1.1.8/Dreamstreaming.DiscordBot_1.1.8.zip",
-"checksum": "5BF0488DA6E00C0DB988DD93B3F92E6E",
+"sourceUrl": "https://github.com/certified-dumbass/Discord-Webhook/releases/download/v1.1.9/Dreamstreaming.DiscordBot_1.1.9.zip",
+"checksum": "8BCD2D7CD9207FF6B3F917025D729834",
 "timestamp": "2026-08-25T00:00:00Z"
 }
     ]

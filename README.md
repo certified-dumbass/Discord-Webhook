@@ -239,3 +239,12 @@ Enjoy your Jellyfin server! 🍿🎬
 
 **Dreamstreaming — Your media, your community.**
 
+
+## 🤖 AI Disclaimer
+
+Some of the artwork and visual assets used in this repository were created with the assistance of generative AI.
+
+The Dreamstreaming Discord Bot was developed with the assistance of AI for programming, debugging, code review, and development guidance. The project has been manually built, tested, configured, and maintained by the repository owner.
+
+AI-assisted does not mean AI-maintained — issues, releases, testing, and project decisions are handled by the project owner.
+

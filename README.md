@@ -1,3 +1,11 @@
+<p align="center">
+  <img src="banner.png"
+       alt="Dreamstreaming Discord Bot"
+       width="100%">
+</p>
+
+
+
 # 🎬 Dreamstreaming Discord Bot
 
 Automatically scan your Jellyfin server for newly added movies and series and post updates directly to Discord using a Discord webhook.

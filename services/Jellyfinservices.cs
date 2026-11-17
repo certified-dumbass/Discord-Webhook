@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -77,9 +78,9 @@ public sealed class JellyfinService : IDisposable
             };
 
 
-        _client.DefaultRequestHeaders.Add(
-            "X-Emby-Token",
-            apiKey.Trim());
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+            "MediaBrowser",
+            $"Token=\"{Uri.EscapeDataString(apiKey.Trim())}\"");
     }
 
 

@@ -1,0 +1,36 @@
+name: Publish Discord Bot v1.2.7
+on:
+  push:
+    branches: [codex/publish-v1.2.7]
+    paths: [.github/workflows/publish-v1.2.7.yml]
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 390b4b6b99e8f9eedec43b51dcd2c7cff920d21e
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Build
+        run: dotnet build Dreamstreaming.DiscordBot.csproj --configuration Release
+      - name: Package and publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          archive=Dreamstreaming.DiscordBot_1.2.7.zip
+          zip -j "$archive" bin/Release/net10.0/Dreamstreaming.DiscordBot.dll
+          unzip -t "$archive"
+          md5sum "$archive"
+          gh release create v1.2.7 "$archive" \
+            --target 390b4b6b99e8f9eedec43b51dcd2c7cff920d21e \
+            --title "v1.2.7" \
+            --notes "Fixes Jellyfin 12.4 library loading and scans with legacy authentication disabled. Both dashboard and server requests now use MediaBrowser authorization."

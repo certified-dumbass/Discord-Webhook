@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/certified-dumbass/Discord-Webhook-re-rlease-/main/Banner.png" alt="Dreamstreaming Discord Bot" width="100%">
+  <img src="https://raw.githubusercontent.com/certified-dumbass/Discord-Webhook/main/Banner.png" alt="Dreamstreaming Discord Bot" width="100%">
 </p>
 
 <h1 align="center">🎬 Dreamstreaming Discord Bot</h1>
@@ -59,7 +59,7 @@ Open:
 Click **+** and add the following repository URL:
 
 ```text
-https://raw.githubusercontent.com/certified-dumbass/Discord-Webhook-re-rlease-/main/manifest.json
+https://raw.githubusercontent.com/certified-dumbass/Discord-Webhook/main/manifest.json
 ```
 
 You can give the repository a name such as:
@@ -87,7 +87,7 @@ That's it — no separate bot application needs to run alongside Jellyfin. 🎉
 For quick copying, this is the raw `manifest.json` used by Jellyfin:
 
 ```text
-https://raw.githubusercontent.com/certified-dumbass/Discord-Webhook-re-rlease-/main/manifest.json
+https://raw.githubusercontent.com/certified-dumbass/Discord-Webhook/main/manifest.json
 ```
 
 The manifest points Jellyfin to the current plugin release and allows new versions to appear in the Jellyfin plugin catalog when they are published.

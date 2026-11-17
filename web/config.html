@@ -1401,18 +1401,11 @@
                 method =
                     method || 'POST';
 
-                var apiKey =
-                    document
-                        .querySelector('#jellyfinApiKey')
-                        .value
-                        .trim();
+                var accessToken = ApiClient.accessToken();
 
-                if (!apiKey) {
-
+                if (!accessToken) {
                     return Promise.reject(
-                        new Error(
-                            'Jellyfin API Key is empty.'
-                        )
+                        new Error('Sign in to Jellyfin as an administrator and try again.')
                     );
                 }
 
@@ -1428,7 +1421,7 @@
                         method: method,
 
                         headers: {
-                            'X-Emby-Token': apiKey
+                            'X-Emby-Token': accessToken
                         }
                     }
                 )

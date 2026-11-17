@@ -1,0 +1,29 @@
+name: Build Jellyfin plugin
+on:
+  pull_request:
+    paths:
+      - '**/*.cs'
+      - '**/*.csproj'
+      - 'web/**'
+      - '.github/workflows/build.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Build plugin
+        run: dotnet build Dreamstreaming.DiscordBot.csproj --configuration Release
+      - name: Upload plugin DLL
+        uses: actions/upload-artifact@v4
+        with:
+          name: Dreamstreaming.DiscordBot-Jellyfin-12.4
+          path: bin/Release/net10.0/Dreamstreaming.DiscordBot.dll
+          if-no-files-found: error

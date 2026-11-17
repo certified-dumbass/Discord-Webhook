@@ -9,6 +9,14 @@
     "imageUrl": "https://raw.githubusercontent.com/certified-dumbass/Discord-Webhook/main/thumbnail.png?v=1.2.4",
     "versions": [
       {
+        "version": "1.2.7",
+        "changelog": "Uses current Jellyfin authentication for dashboard actions and library scans.",
+        "targetAbi": "12.4.0.0",
+        "sourceUrl": "https://github.com/certified-dumbass/Discord-Webhook/releases/download/v1.2.7/Dreamstreaming.DiscordBot_1.2.7.zip",
+        "checksum": "3F8C5F4C5D1323F486330B85A4115167",
+        "timestamp": "2026-11-17T11:03:10Z"
+      },
+      {
         "version": "1.2.6",
         "changelog": "Fixes HTTP 401 when loading libraries and running other dashboard actions.",
         "targetAbi": "12.4.0.0",
